@@ -220,6 +220,8 @@ sasl.tbds.secure.key=xxx
 
  1\) jar包
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/New\_Kafka\_Producer.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/New_Kafka_Producer.jar)
+
 jar包功能：生产数据放入指定topic，并打印信息
 
 2\) 样例代码（TBDS认证）
