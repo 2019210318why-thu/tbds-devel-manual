@@ -131,6 +131,8 @@ Kafka认证支持两种方式，接下来分别说明。
 
 jar包作用：workcount
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/SparkCoreWordCount.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/SparkCoreWordCount.jar)
+
 2\) 样例代码
 
 ```java

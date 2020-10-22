@@ -88,6 +88,8 @@ java客户端使用jdbc驱动连接，连接字符串可以任意一种，用户
 
 jar包作用：创建表
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/HiveDemo.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/HiveDemo.jar)
+
 2\) 样例代码
 
 ```java

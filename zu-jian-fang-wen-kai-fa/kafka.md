@@ -523,6 +523,8 @@ message sent to partition(0),offset(120)
 
 1\) jar包
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/KafkaCustomeDemo.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/KafkaCustomeDemo.jar)
+
 jar包作用：消费指定topic的数据，并做打印
 
 2\) 样例代码

@@ -175,6 +175,8 @@ Tbds统一权限控制，hdfs和yarn所有的目录访问和资源权限都有Tb
 
 jar包作用：查看HDFS目录下文件详情
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/HadoopHDFS.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/HadoopHDFS.jar)
+
 2\) 样例代码
 
 ```java

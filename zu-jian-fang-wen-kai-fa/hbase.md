@@ -210,6 +210,8 @@ hadoop-common-2.7.2-TBDS-4.0.3.3.jar
 
 jar包作用：打印tableName信息
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/HBaseDemo.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/HBaseDemo.jar)
+
 2\) 样例代码
 
 ```java
