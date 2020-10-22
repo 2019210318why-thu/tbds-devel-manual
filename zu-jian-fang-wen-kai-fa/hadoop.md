@@ -358,3 +358,196 @@ hadoop jar HadoopHDFSDemo.jar 46euF5bK2KeWplkVzyXPZfeJGw2SGI7RD*** admin RDyQwfn
 wc.txt------>>>hdfs://hdfsCluster/test/input/wc.txt
 ```
 
+### 3.6 Hadoop MR简单示例
+
+1\) jar包
+
+jar包作用：wordcount
+
+2\) 样例代码
+
+WordcountDriver
+
+```java
+package com.tencent.hadoop.mr;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+import com.tencent.conf.ConfigurationManager;
+
+/**
+ * 相当于一个yarn集群的客户端
+ * 需要在此封装我们的mr程序的相关运行参数，指定jar包
+ * 最后提交给yarn
+ * @author
+ */
+public class WordcountDriver {
+
+    public static void main(String[] args) throws Exception {
+
+        if(args == null || args.length != 5){
+           System.err.println("Usage: <inputpath> <outputpath> <secureid> <username> <securekey> ");
+           System.exit(1);
+       }
+
+        Configuration conf = new Configuration();
+
+
+        if(args != null && args.length == 5) {
+            conf.set("hadoop.security.authentication","tbds");
+            conf.set("hadoop_security_authentication_tbds_secureid",args[2]);
+            conf.set("hadoop_security_authentication_tbds_username",args[3]);
+            conf.set("hadoop_security_authentication_tbds_securekey",args[4]);
+        }else{
+            //加入tbds的认证参数
+            conf.set("hadoop.security.authentication", ConfigurationManager.getProperty("hadoop.security.authentication"));
+            conf.set("hadoop_security_authentication_tbds_username",ConfigurationManager.getProperty("hadoop_security_authentication_tbds_username"));
+            conf.set("hadoop_security_authentication_tbds_secureid",ConfigurationManager.getProperty("hadoop_security_authentication_tbds_secureid"));
+            conf.set("hadoop_security_authentication_tbds_securekey",ConfigurationManager.getProperty("hadoop_security_authentication_tbds_securekey"));
+        }
+
+        Job job = Job.getInstance(conf);
+
+        //指定本程序的jar包所在的本地路径
+        job.setJarByClass(WordcountDriver.class);
+
+        //指定本业务job要使用的mapper/Reducer业务类
+        job.setMapperClass(WordcountMapper.class);
+        job.setReducerClass(WordcountReducer.class);
+
+        //指定mapper输出数据的kv类型
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(IntWritable.class);
+
+        //指定最终输出的数据的kv类型
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+
+        //指定job的输入原始文件所在目录
+        FileInputFormat.setInputPaths(job, new Path(args[0]));
+        //指定job的输出结果所在目录
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        //将job中配置的相关参数，以及job所用的java类所在的jar包，提交给yarn去运行
+        /*job.submit();*/
+        boolean res = job.waitForCompletion(true);
+        System.exit(res?0:1);
+    }
+}
+```
+
+WordcountMapper
+
+```java
+package com.tencent.hadoop.mr;
+
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+
+/**
+ * KEYIN: 默认情况下，是mr框架所读到的一行文本的起始偏移量，Long,
+ * 但是在hadoop中有自己的更精简的序列化接口，所以不直接用Long，而用LongWritable
+ * VALUEIN:默认情况下，是mr框架所读到的一行文本的内容，String，同上，用Text
+ * KEYOUT：是用户自定义逻辑处理完成之后输出数据中的key，在此处是单词，String，同上，用Text
+ * VALUEOUT：是用户自定义逻辑处理完成之后输出数据中的value，在此处是单词次数，Integer，同上，用IntWritable
+ * @author
+ */
+
+public class WordcountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
+
+    /**
+     * map阶段的业务逻辑就写在自定义的map()方法中
+     * maptask会对每一行输入数据调用一次我们自定义的map()方法
+     */
+    @Override
+    protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+
+        //将maptask传给我们的文本内容先转换成String
+        String line = value.toString();
+        //根据空格将这一行切分成单词
+        String[] words = line.split(" ");
+        //将单词输出为<单词，1>
+        for (String word : words) {
+            //将单词作为key，将次数1作为value，以便于后续的数据分发，可以根据单词分发，以便于相同单词会到相同的reduce task
+            context.write(new Text(word), new IntWritable(1));
+        }
+    }
+}
+```
+
+WordcountReducer
+
+```java
+package com.tencent.hadoop.mr;
+
+
+import java.io.IOException;
+import java.util.Iterator;
+
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+/**
+ * KEYIN, VALUEIN 对应  mapper输出的KEYOUT,VALUEOUT类型对应
+ * KEYOUT, VALUEOUT 是自定义reduce逻辑处理结果的输出数据类型
+ * KEYOUT是单词
+ * VLAUEOUT是总次数
+ * @author
+ */
+public class WordcountReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
+
+    /**
+     * <hello,1><hello,1><hello,1><hello,1><hello,1><hello,1>
+     * <banana,1><banana,1><banana,1><banana,1><banana,1><banana,1>
+     * 入参key，是一组相同单词kv对的key
+     */
+    @Override
+    protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+
+        int count=0;
+        Iterator<IntWritable> iterator = values.iterator();
+        while(iterator.hasNext()){
+            count += iterator.next().get();
+        }
+        context.write(key, new IntWritable(count));
+
+    }
+
+}
+```
+
+3\) pom.xml文件
+
+```markup
+
+```
+
+4\) Demo提交运行步骤
+
+```markup
+# 2.1 环境变量配置
+export HADOOP_HOME=/usr/hdp/2.2.0.0-2041/hadoop
+export JAVA_HOME=/usr/jdk64/jdk1.8.0_191
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin
+
+2.2 上传jar包并执行
+# 参数1：指定job的输入原始文件所在目录
+# 参数2：指定job的输出原始文件所在目录 注：必须为不存在目录
+# 参数3：hadoop_security_authentication_tbds_secureid
+# 参数4：hadoop_security_authentication_tbds_username
+# 参数5：hadoop_security_authentication_tbds_securekey
+# 例：
+[root@tbds-10-1-0-126 jar]#  hadoop jar HadoopMRTbds.jar /test/input /output 46euF5bK2KeWplkVzyXPZfeJGw2SGI7RD*** adm** RDyQwfnl0gApSeH1fyDUF2kXP0Ya4***
+```
+
