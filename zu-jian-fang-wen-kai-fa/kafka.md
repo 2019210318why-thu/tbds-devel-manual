@@ -180,11 +180,11 @@ sasl.tbds.secure.key=xxx
         <dependency> 
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka_2.11</artifactId>
-            <version>0.10.0.1-TBDS-4.0.3.3</version>
+            <version>1.0.0-TBDS-5.1.3.0</version>
         </dependency>
         <dependency> <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
-            <version>0.10.0.1-TBDS-4.0.3.3</version>
+            <version>1.0.0-TBDS-5.1.3.0</version>
         </dependency>
 ```
 
