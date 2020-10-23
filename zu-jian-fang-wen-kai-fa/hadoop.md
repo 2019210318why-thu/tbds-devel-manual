@@ -364,6 +364,8 @@ wc.txt------>>>hdfs://hdfsCluster/test/input/wc.txt
 
 1\) jar包
 
+> [https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar\_new/hadoopMRWordCount.jar](https://github.com/2019210318why-thu/TBDS-jar/blob/main/jar_new/hadoopMRWordCount.jar)
+
 jar包作用：wordcount
 
 2\) 样例代码
@@ -529,13 +531,9 @@ public class WordcountReducer extends Reducer<Text, IntWritable, Text, IntWritab
 }
 ```
 
-3\) pom.xml文件
 
-```markup
 
-```
-
-4\) Demo提交运行步骤
+3\) Demo提交运行步骤
 
 ```markup
 # 2.1 环境变量配置
