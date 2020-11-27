@@ -1,5 +1,5 @@
 {
-    "title": "TBDS 手册",
+    "title": "TBDS开发者手册",
     "language": "zh-hans",
     "gitbook": ">=3.0.0",
     "plugins": [
@@ -9,7 +9,6 @@
         "-sharing",
         "sitemap",
         "anchors",
-        "katex",
         "back-to-top-button",
         "exercises",
         "video",
@@ -20,9 +19,10 @@
         "-pyweb",
         "-etoc",
         "markdown-parse-add-br",
-        "katex-full",
-        "code-highlighter",
-        "chart"
+        "chart",
+        "prism",
+        "-highlight",
+        "intopic-toc"
     ],
     "pluginsConfig": {
         "github": {
@@ -36,9 +36,6 @@
         "sitemap": {
             "hostname": "https://tbds-book.gitbooks.io/tbds"
         },
-        "highlight": {
-            "highlightCommented": true
-        },
         "tbfed-pagefooter": {
             "copyright":"&copy Tencent TBDS Team",
             "modify_label": "该文件修订时间：",
@@ -46,6 +43,21 @@
         },
         "tags": {
             "placement": "top"
+        },
+        "prism": {
+            "lang": {
+                "shell": "bash"
+            }
+        },
+        "pluginsConfig": {
+            "intopic-toc": {
+                "selector": ".markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4, .markdown-section h5, .markdown-section h6",
+                "mode": "nested",
+                "maxDepth": 2,
+                "isCollapsed": false,
+                "isScrollspyActive": true,
+                "visible": true
+            }
         }
     }
 }

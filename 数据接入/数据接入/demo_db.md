@@ -33,6 +33,7 @@
 2、【接口信息】配置
 
 接入的源数据库表信息：``源DB：tdbank, 源Table:student, teacher``，接口名称：``db2dbTest``
+
 ![pic_07](images/pic_07.png)
 配置对应的目的数据接口：
 ![pic_08](images/pic_08.png)
@@ -74,7 +75,7 @@
 数据接入审批成功后，配置数据接入Agent，配置的参数详情，参考[TDBank采集接口详解]
 - 配置data-hub：common.properties
 
-```
+```ini
 data.hub.manager.ip={DataHub Server对应的IP地址}
 data.hub.manager.port={DataHub Server对应的heartbeat.port配置，默认:9292}
 data.hub.agent.name=agent-db-test
@@ -86,7 +87,8 @@ data.hub.target=DB #落地的数据类型
 - 配置Flume：log4j.properties
 
 追加以下配置信息，用于接入的指标采集
-```
+
+```ini
 log4j.logger.metrics=INFO, METRICS
 log4j.appender.METRICS=org.apache.log4j.rolling.RollingFileAppender
 log4j.appender.METRICS.rollingPolicy=org.apache.log4j.rolling.TimeBasedRollingPolicy
@@ -95,9 +97,10 @@ log4j.appender.METRICS.rollingPolicy.FileNamePattern=${flume.log.dir}/metrics.lo
 log4j.appender.METRICS.layout=org.apache.log4j.PatternLayout
 log4j.appender.METRICS.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %m%n
 ```
+
 - 配置Flume：flume.conf
 
-```
+```ini
 agent1.sources = sqlSource
 agent1.channels = ch1
 
@@ -137,7 +140,7 @@ agent1.sources.sqlSource.hibernate.c3p0.max_size=10
 
 - 配置Tmetric: agent.ini
 
-```
+```ini
 [agent]
 ;agent主机地址，非必填项；默认使用本机ip
 hostName=10.0.0.2
@@ -171,7 +174,8 @@ failoverQueuePath=/data/metric-2.0/failover
 ```
 
 启动Agent、Tmetric命令：
-```
+
+```shell
 cd ${FLUME_PATH}
 nohup bin/flume-ng agent -Dlog4j.configuration=conf/log4j.properties --classpath /{DataHub_PATH}/conf:/{DataHub_PATH}/lib/* --conf conf/ -f conf/flume.conf -n agent1 > stdout 2>&1 &
 cd ${TMetric_PATH}
