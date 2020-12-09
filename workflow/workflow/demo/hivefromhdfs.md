@@ -1,11 +1,12 @@
-Hive导入HDFS
----------------
+# Hive导入HDFS
+
+## Hive导入HDFS
 
 ### 步骤（1）新建工作流
 
 如下图，拖拽新建一个任务，选择Hive导入HDFS类型。
 
-![](media/1c378e9f1880e75e4d27c1e1b0f31064.png)
+![](../../../.gitbook/assets/1c378e9f1880e75e4d27c1e1b0f31064.png)
 
 ### 步骤（2）配置工作流参数
 
@@ -13,15 +14,15 @@ Hive导入HDFS
 
 ·基本信息
 
-![](media/9b62d7f48eb555270722bd0ee6f2c917.png)
+![](../../../.gitbook/assets/9b62d7f48eb555270722bd0ee6f2c917.png)
 
 ·调度设置
 
-![](media/51d7691da4ba6253a1727467f2b105f6.png)
+![](../../../.gitbook/assets/51d7691da4ba6253a1727467f2b105f6.png)
 
 ·参数配置
 
-![](media/8942ee4a3ecc553edeedc917d615577b.png)
+![](../../../.gitbook/assets/8942ee4a3ecc553edeedc917d615577b.png)
 
 ·源服务器
 
@@ -75,66 +76,65 @@ hive beeline 命令行的输出格式，基于4.0.3.1 的hive 采用默认值 Ou
 
 这里需要注意的是，我们的源服务器和目标服务器是需要进行预先配置的。我们点击编辑服务配置去进行服务器配置。
 
-![](media/2482cde4dfc8ebd8bf57a61e1dedb575.png)
+![](../../../.gitbook/assets/2482cde4dfc8ebd8bf57a61e1dedb575.png)
 
 我们选择hive类型的服务器并创建完成。
 
-![](media/c4ad51e0a658ad38cc5e4de247a3ea54.png)
+![](../../../.gitbook/assets/c4ad51e0a658ad38cc5e4de247a3ea54.png)
 
 ### 步骤（4）准备hive数据
 
 由于hive中如果没有数据则导出数据会失败，所以我们可以利用mysql导出hive工作流来向hive产生一批数据。具体mysql导入hive工作流的流程见**mysql导入hive。**这里给出一部分的参数配置信息。
 
-![](media/816c93293a8e3dad05f41672df17ccd7.png)
+![](../../../.gitbook/assets/816c93293a8e3dad05f41672df17ccd7.png)
 
 然后我们看到提前往mysql中写入的一些数据。
 
-![](media/f9bcbc044a734ba9f6f420561f193c32.png)
+![](../../../.gitbook/assets/f9bcbc044a734ba9f6f420561f193c32.png)
 
 我们mysql导入hive成功。
 
-![](media/987213fe1117c567b1b6571250e57b17.png)
+![](../../../.gitbook/assets/987213fe1117c567b1b6571250e57b17.png)
 
 ### 步骤（5）保存并发布运行工作流
 
 最后我们保存，并发布运行工作流，等待系统管理员审批完成后，工作流运行。
 
-![](media/25b3cb1cd9d0627771808cfc0b9f4738.png)
+![](../../../.gitbook/assets/25b3cb1cd9d0627771808cfc0b9f4738.png)
 
 我们看到工作流运行成功。
 
-![](media/f85dedf8df3dd7f957e3ff258182cd50.png)
+![](../../../.gitbook/assets/f85dedf8df3dd7f957e3ff258182cd50.png)
 
 ### 步骤（6）查看工作流运行结果
 
 最后我们到配置文件所指向的路径下去观察数据文件。可以看到数据文件和一开始mysql中的数据文件是一致的。
 
-![](media/5ca7e27494aaa0ea8f6f1a03d4c8c958.png)
+![](../../../.gitbook/assets/5ca7e27494aaa0ea8f6f1a03d4c8c958.png)
 
-![](media/5c531329c82b2c0571d917123f05a43c.png)
+![](../../../.gitbook/assets/5c531329c82b2c0571d917123f05a43c.png)
 
-4、自定义JStorm任务
--------------------
+## 4、自定义JStorm任务
 
 ### 步骤（1）新建工作流任务
 
 我们先拖拽一个新建任务的按钮来新建一个JStorm任务，选择JStorm任务类型，任务新建完成后，双击任务或右键任务点击编辑进入参数编辑页面执行任务编辑。
 
-![](media/7c2ad9b169e035dd1b3d00501647d765.png)
+![](../../../.gitbook/assets/7c2ad9b169e035dd1b3d00501647d765.png)
 
 ### 步骤（2）配置任务参数
 
 **·基本信息**
 
-![](media/f302345b0fba9a60d5c73ea9bf858136.png)
+![](../../../.gitbook/assets/f302345b0fba9a60d5c73ea9bf858136.png)
 
 **·调度设置**
 
-![](media/1096e22aca4d4c13ec2878603d7d5e3f.png)
+![](../../../.gitbook/assets/1096e22aca4d4c13ec2878603d7d5e3f.png)
 
 **·参数配置**
 
-![](media/64a56897004d8ff79982427fb0d0d4b6.png)
+![](../../../.gitbook/assets/64a56897004d8ff79982427fb0d0d4b6.png)
 
 参数说明
 
@@ -164,7 +164,7 @@ Provided
 
 ### 步骤（3）保存并发布运行工作流
 
-![](media/b6e8755bb905e70f01ba47334408ef59.png)
+![](../../../.gitbook/assets/b6e8755bb905e70f01ba47334408ef59.png)
 
 待审核完成之后，我们可以看到任务已经在运行中了。
 
@@ -172,4 +172,5 @@ Provided
 
 Storm任务的运行不会变更为运行成功的状态，因为Storm任务是一直运行的，除非我们手动去终止或者运行过程中出现异常，则任务状态会变更为失败或永久终止。
 
-![](media/4bce174b0b236ab4ee6c92c8fd1fd58e.png)
+![](../../../.gitbook/assets/4bce174b0b236ab4ee6c92c8fd1fd58e.png)
+
